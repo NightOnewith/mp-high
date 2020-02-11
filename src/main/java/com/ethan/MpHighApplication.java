@@ -1,5 +1,6 @@
 package com.ethan;
 
+import com.ethan.utils.TableName;
 import com.ethan.utils.TenantContext;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -17,6 +18,11 @@ public class MpHighApplication {
 	@Bean
 	public TenantContext tenantContext() {
 		return new TenantContext();
+	}
+
+	@Bean
+	public TableName myTableName() {
+		return new TableName();
 	}
 
 }

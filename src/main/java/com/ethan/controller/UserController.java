@@ -1,5 +1,6 @@
 package com.ethan.controller;
 
+import com.baomidou.mybatisplus.core.MybatisConfiguration;
 import com.baomidou.mybatisplus.core.conditions.query.LambdaQueryWrapper;
 import com.baomidou.mybatisplus.core.conditions.query.QueryWrapper;
 import com.ethan.dao.UserMapper;
@@ -7,11 +8,13 @@ import com.ethan.entity.Result;
 import com.ethan.entity.User;
 import com.ethan.serive.UserService;
 import com.ethan.utils.ResultUtil;
+import com.ethan.utils.TableName;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import java.time.LocalDateTime;
+import java.util.Arrays;
 import java.util.List;
 
 /**
@@ -25,6 +28,9 @@ public class UserController {
 
     @Autowired
     private UserMapper userMapper;
+
+    @Autowired
+    private TableName myTableName;
 
     @RequestMapping("/insertUser")
     public Result insertUser() {
@@ -40,6 +46,62 @@ public class UserController {
         return ResultUtil.success(userList);
     }
 
+    @RequestMapping("/deleteAll")
+    public Result deleteAll() {
+        myTableName.setName("_2020");
+
+        int rows = userMapper.deleteAll();
+
+        return ResultUtil.success(rows);
+    }
+
+    @RequestMapping("/insertBatchSomeColumn")
+    public Result insertBatchSomeColumn() {
+        User user1 = new User();
+        user1.setName("网易2");
+        user1.setAge(20);
+        user1.setManagerId(1224581991756791809L);
+        //user1.setVersion(1);
+
+        User user2 = new User();
+        user2.setName("阿里2");
+        user2.setAge(20);
+        user2.setManagerId(1224581991756791809L);
+        //user2.setVersion(1);
+
+        List<User> userList = Arrays.asList(user1, user2);
+
+        int rows = userMapper.insertBatchSomeColumn(userList);
+
+        return ResultUtil.success(rows);
+    }
+
+    @RequestMapping("/deleteByIdWithFill")
+    public Result deleteByIdWithFill() {
+        User user = new User();
+        user.setId(1227087203897778178L);
+        user.setAge(30);
+
+        int row = userMapper.deleteByIdWithFill(user);
+        return ResultUtil.success("影响行数：" + row);
+    }
+
+    @RequestMapping("/alwaysUpdateSomeColumnById")
+    public Result alwaysUpdateSomeColumnById() {
+        User user = new User();
+        user.setId(1227087203897778178L);
+        user.setAge(31);
+        user.setEmail("ali@user.com");
+        user.setManagerId(1224581991756791809L);
+        user.setCreateTime(LocalDateTime.now());
+        user.setVersion(2);
+        user.setName("我改名字了");
+
+        int row = userMapper.alwaysUpdateSomeColumnById(user);
+
+        return ResultUtil.success(row);
+    }
+
     @RequestMapping("/deleteById")
     public Result deleteById() {
         userMapper.selectById(1224581991769374722L);
@@ -51,6 +113,9 @@ public class UserController {
 
     @RequestMapping("/selectUser")
     public Result selectUser() {
+        //  设置动态表名
+        myTableName.setName("_2020");
+
         List<User> users = userMapper.selectList(null);
 
         users.forEach(System.out::println);
@@ -59,6 +124,8 @@ public class UserController {
 
     @RequestMapping("/mySelectUsers")
     public Result mySelectUsers() {
+        myTableName.setName("_2020");
+
         // 直接查询
         List<User> users = userMapper.mySelectUsers(new QueryWrapper<User>().lambda());
         users.forEach(System.out::println);

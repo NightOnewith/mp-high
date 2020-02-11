@@ -8,7 +8,7 @@ import java.time.LocalDateTime;
 /**
  * Created by ASUS on 2020/2/4.
  */
-@Data()
+@Data
 @TableName("user")
 public class User {
 
@@ -19,6 +19,7 @@ public class User {
     private String name;
 
     //年龄
+    //@TableField(fill = FieldFill.UPDATE)
     private Integer age;
 
     //邮箱

@@ -8,5 +8,6 @@ import org.springframework.stereotype.Repository;
  * Created by ASUS on 2020/2/9.
  */
 @Repository
-public interface ProfileMapper extends BaseMapper<Profile> {
+public interface ProfileMapper extends MyBaseMapper<Profile> {
+
 }

@@ -9,7 +9,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 /**
  * Created by ASUS on 2020/2/9.
  */
-@Configuration
+//@Configuration
 public class InterceptorConfig implements WebMvcConfigurer {
 
     @Autowired

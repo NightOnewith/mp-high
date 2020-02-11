@@ -14,7 +14,7 @@ import javax.servlet.http.HttpServletResponse;
 /**
  * Created by ASUS on 2020/2/9.
  */
-@Component
+//@Component
 public class TenantInterceptor implements HandlerInterceptor {
 
     @Autowired
